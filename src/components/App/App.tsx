@@ -6,7 +6,6 @@ import Container from "@material-ui/core/Container";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,6 +27,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -35,12 +35,10 @@ const App: React.FC = () => {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-          >
-          </IconButton>
+          ></IconButton>
           <Typography variant="h6" className={classes.title}>
             Itodo
           </Typography>
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
       <Container>

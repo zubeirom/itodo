@@ -1,6 +1,7 @@
 import React from "react";
 import { Db } from "../../data/Db";
 import Todo from "../Todo/Todo";
+import Search from "../Search/Search";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 
@@ -8,17 +9,27 @@ export interface DashboardProps {}
 
 export interface DashboardState {
   todos: { userId: number; id: number; title: String; completed: boolean }[];
+  input: String;
 }
 
 class Dashboard extends React.Component<DashboardProps, DashboardState> {
   state: DashboardState = {
-    todos: []
+    todos: [],
+    input: ""
   };
 
   async componentDidMount() {
     const todos = await Db.getTodos();
     this.setState({
-      todos
+      todos,
+      input: ""
+    });
+  }
+
+  handleChange(event: any) {
+    this.setState({
+      todos: this.state.todos,
+      input: event.target.value
     });
   }
 
@@ -36,6 +47,12 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
 
     return (
       <div>
+        <br />
+        <Search
+          input={this.state.input}
+          onChange={this.handleChange.bind(this)}
+        />
+        <br />
         <GridList cols={3} spacing={2}>
           {listTodos}
         </GridList>
