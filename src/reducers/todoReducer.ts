@@ -1,13 +1,16 @@
-import { FETCH_TODOS } from "../actions/types";
+import { FETCH_TODOS, TodoState, TodoActionTypes } from "../actions/types";
 
-const initialState = {
-  items: []
+const initialState: TodoState = {
+  todos: []
 };
 
-export default function(state = initialState, action: any) {
+export function todoReducer(
+  state = initialState,
+  action: TodoActionTypes
+): TodoState {
   switch (action.type) {
     case FETCH_TODOS:
-      return { ...state };
+      return { todos: [...action.payload] };
 
     default:
       return state;
