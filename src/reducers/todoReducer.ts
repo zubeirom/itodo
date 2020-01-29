@@ -10,7 +10,7 @@ export function todoReducer(
 ): TodoState {
   switch (action.type) {
     case FETCH_TODOS:
-      return { todos: [...action.payload] };
+      return { ...state, todos: [...action.payload] };
 
     default:
       return state;

@@ -26,7 +26,7 @@ export interface TodoProps {
   userId: number;
   id: number;
   title: String;
-  completed: boolean;
+  completed: Boolean;
 }
 
 const Todo: React.SFC<TodoProps> = TodoProps => {

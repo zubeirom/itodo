@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { TodoState } from "../../actions/types";
+import React, { useEffect } from "react";
+import { TodoActionTypes } from "../../actions/types";
 import Todo from "../Todo/Todo";
-import Search from "../Search/Search";
-import PropTypes from "prop-types";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import { fetchTodos } from "../../actions/todoActions";
-import { connect } from "react-redux";
-
-export interface DashboardState {
-  todos: { userId: number; id: number; title: String; completed: boolean }[];
-  input: String;
-}
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import { Dispatch } from "redux";
 
 interface Todo {
   userId: number;
@@ -20,19 +14,25 @@ interface Todo {
   completed: boolean;
 }
 
-export interface DashboardProps {
-  fetchTodos: () => Todo[];
+export interface DashboardState {
+  todos: Todo[];
+  input: String;
 }
+export interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = DashboardProps => {
-  const [todos, setTodos] = useState<Todo[]>();
-  const { fetchTodos } = DashboardProps;
+  const { todos } = useSelector((state: RootState) => state.todo);
+  const dispatch = useDispatch<Dispatch<TodoActionTypes>>();
 
   useEffect(() => {
-    setTodos(fetchTodos());
-  });
+    fetch("https://jsonplaceholder.typicode.com/todos")
+      .then(result => result.json())
+      .then(todos => {
+        dispatch({ type: "FETCH_TODOS", payload: todos });
+      });
+  }, []);
 
-  const listTodos = todos!.map((todo, i) => (
+  const listTodos = todos.map((todo, i) => (
     <GridListTile key={i}>
       <Todo
         userId={todo.userId}
@@ -54,10 +54,4 @@ const Dashboard: React.FC<DashboardProps> = DashboardProps => {
   );
 };
 
-Dashboard.propTypes = {
-  fetchTodos: PropTypes.func.isRequired
-};
-
-export default connect<DashboardState, DashboardProps>(null, { fetchTodos })(
-  Dashboard
-);
+export default Dashboard;
