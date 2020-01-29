@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./Dashboard.css";
 import {
   TodoActionTypes,
@@ -11,8 +11,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { Dispatch } from "redux";
-import { toggleCompleted } from "../../actions/todoActions";
-import { TextField } from "@material-ui/core";
+import Search from "../Search/Search";
 
 interface Todo {
   userId: number;
@@ -21,14 +20,11 @@ interface Todo {
   completed: boolean;
 }
 
-export interface DashboardState {
-  todos: Todo[];
-  input: String;
-}
 export interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = DashboardProps => {
   const { todos } = useSelector((state: RootState) => state.todo);
+  const [filteredTodos, setFilteredTodos] = useState(todos);
   const dispatch = useDispatch<Dispatch<TodoActionTypes>>();
 
   useEffect(() => {
@@ -39,7 +35,11 @@ const Dashboard: React.FC<DashboardProps> = DashboardProps => {
       });
   }, []);
 
-  const listTodos = todos.map((todo, i) => (
+  useEffect(() => {
+    setFilteredTodos(todos);
+  }, [todos]);
+
+  const listTodos = filteredTodos.map((todo, i) => (
     <GridListTile key={i}>
       <Todo
         userId={todo.userId}
@@ -52,20 +52,12 @@ const Dashboard: React.FC<DashboardProps> = DashboardProps => {
     </GridListTile>
   ));
 
-  const textStyle = {
-    width: 600
-  };
+  let setSearchString = useCallback((value: string) => {}, []);
 
   return (
     <div>
       <br />
-      <TextField
-        id="outlined-basic"
-        label="Search"
-        variant="outlined"
-        className="textfield"
-      />
-      <br />
+      <Search setSearchString={setSearchString} />
       <br />
       <GridList cols={3} spacing={2}>
         {listTodos}

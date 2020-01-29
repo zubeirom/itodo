@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
@@ -14,13 +14,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface SearchProps {
-  input?: String;
-  onChange: (event: any) => void;
+  setSearchString: (value: string) => void;
 }
 
-const Search: React.SFC<SearchProps> = SearchProps => {
+const Search: React.SFC<SearchProps> = ({ setSearchString }) => {
   const classes = useStyles();
-  const { onChange, input } = SearchProps;
+  const [input, setInput] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    setSearchString(e.target.value);
+  };
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -29,7 +32,7 @@ const Search: React.SFC<SearchProps> = SearchProps => {
         label="Search by title"
         variant="outlined"
         className={classes.textField}
-        onChange={onChange}
+        onChange={handleChange}
         value={input}
       />
     </form>
