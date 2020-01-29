@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./Dashboard.css";
 import {
   TodoActionTypes,
   TOGGLE_COMPLETED,
@@ -11,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { Dispatch } from "redux";
 import { toggleCompleted } from "../../actions/todoActions";
+import { TextField } from "@material-ui/core";
 
 interface Todo {
   userId: number;
@@ -50,10 +52,20 @@ const Dashboard: React.FC<DashboardProps> = DashboardProps => {
     </GridListTile>
   ));
 
+  const textStyle = {
+    width: 600
+  };
+
   return (
     <div>
       <br />
-
+      <TextField
+        id="outlined-basic"
+        label="Search"
+        variant="outlined"
+        className="textfield"
+      />
+      <br />
       <br />
       <GridList cols={3} spacing={2}>
         {listTodos}
