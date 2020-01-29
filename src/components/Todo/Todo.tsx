@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import Fab from "@material-ui/core/Fab";
+import { IconButton } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles({
   card: {
@@ -27,12 +29,14 @@ export interface TodoProps {
   id: number;
   title: String;
   completed: Boolean;
+  onClick: () => void;
+  onDelete: () => void;
 }
 
-const Todo: React.SFC<TodoProps> = TodoProps => {
+const Todo: React.FC<TodoProps> = TodoProps => {
   const classes = useStyles();
 
-  const { title, completed } = TodoProps;
+  const { title, completed, onClick, onDelete } = TodoProps;
 
   return (
     <Card className={classes.card}>
@@ -50,14 +54,17 @@ const Todo: React.SFC<TodoProps> = TodoProps => {
       </CardActionArea>
       <CardActions>
         {completed ? (
-          <Fab color="primary" size="small">
+          <Fab color="primary" size="small" onClick={onClick}>
             <DoneOutlineIcon />
           </Fab>
         ) : (
-          <Fab color="secondary" size="small">
+          <Fab color="secondary" size="small" onClick={onClick}>
             <CloseOutlinedIcon />
           </Fab>
         )}
+        <IconButton aria-label="share" onClick={onDelete}>
+          <DeleteIcon color="error" />
+        </IconButton>
       </CardActions>
     </Card>
   );

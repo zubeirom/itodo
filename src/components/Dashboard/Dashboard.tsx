@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
-import { TodoActionTypes } from "../../actions/types";
+import {
+  TodoActionTypes,
+  TOGGLE_COMPLETED,
+  DELETE_TODO
+} from "../../actions/types";
 import Todo from "../Todo/Todo";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { Dispatch } from "redux";
+import { toggleCompleted } from "../../actions/todoActions";
 
 interface Todo {
   userId: number;
@@ -39,6 +44,8 @@ const Dashboard: React.FC<DashboardProps> = DashboardProps => {
         id={todo.id}
         title={todo.title}
         completed={todo.completed}
+        onClick={() => dispatch({ type: TOGGLE_COMPLETED, id: todo.id })}
+        onDelete={() => dispatch({ type: DELETE_TODO, id: todo.id })}
       />
     </GridListTile>
   ));
@@ -46,6 +53,7 @@ const Dashboard: React.FC<DashboardProps> = DashboardProps => {
   return (
     <div>
       <br />
+
       <br />
       <GridList cols={3} spacing={2}>
         {listTodos}
