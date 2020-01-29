@@ -52,7 +52,13 @@ const Dashboard: React.FC<DashboardProps> = DashboardProps => {
     </GridListTile>
   ));
 
-  let setSearchString = useCallback((value: string) => {}, []);
+  let setSearchString = useCallback((value: string) => {
+    if (value) {
+      setFilteredTodos(filteredTodos.filter(todo => todo.id === 1));
+    } else {
+      setFilteredTodos(todos);
+    }
+  }, []);
 
   return (
     <div>

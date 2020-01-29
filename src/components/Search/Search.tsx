@@ -26,7 +26,12 @@ const Search: React.SFC<SearchProps> = ({ setSearchString }) => {
   };
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form
+      className={classes.root}
+      noValidate
+      autoComplete="off"
+      onSubmit={e => e.preventDefault()}
+    >
       <TextField
         id="outlined-basic"
         label="Search by title"
